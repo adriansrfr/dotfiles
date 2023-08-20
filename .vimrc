@@ -1,4 +1,4 @@
-" Todo: test
+" Todo: test2
 " fuzzy headers for makeshift TOC
 " quickfix headers :vimgrep /^#/ %
 " Have quickfix automatically populate?
