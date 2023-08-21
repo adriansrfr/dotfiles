@@ -17,6 +17,8 @@ shopt -s checkwinsize
 
 #Temporary aliases
 
+export OPEN_API_KEY=$(cat  ~/.config/GPT/GPT_key)
+
 set -o vi
 # For a better man page experience
 #export MANPAGER='nvim +Man!'
