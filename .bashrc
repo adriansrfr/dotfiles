@@ -6,7 +6,6 @@ alias vim=nvim
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
-export OPENAI_API_KEY='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'
 #export JAVA_HOME=/usr/lib/jvm/jdk-13.0.2
 #export JAVA_HOME=/home/adrian/.jdks/openjdk-19.0.1
 #export JAVA_HOME=/usr/lib/jvm/jdk-18
