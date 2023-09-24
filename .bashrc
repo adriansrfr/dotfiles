@@ -5,11 +5,18 @@
 alias vim=nvim
 export VISUAL=nvim
 export EDITOR="$VISUAL"
+#export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
+HISTTIMEFORMAT="%F %T "
+export FZF_DEFAULT_COMMAND='ag -f -g ""'
 
-#export JAVA_HOME=/usr/lib/jvm/jdk-13.0.2
-#export JAVA_HOME=/home/adrian/.jdks/openjdk-19.0.1
-#export JAVA_HOME=/usr/lib/jvm/jdk-18
-
+# fzf keybindings
+bind '"\C-f":"fzword\n"'
+bind '"\C-e":"fzfolder\n"'
+bind '"\C-n":"nvim\n"'
+# bind '"\C-i":"index\n"' # Something else is bound to C-i
+#https://unix.stackexchange.com/questions/203418/bind-c-i-and-tab-keys-to-different-commands-in-terminal-applications-via-inputr
+bind '"\C-b":"fzbin\n"'
+bind '"\C-w":"fzwikiword\n"'
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -17,24 +24,21 @@ shopt -s checkwinsize
 
 #Temporary aliases
 
-export OPEN_API_KEY=$(cat  ~/.config/GPT/GPT_key)
+export OPEN_API_KEY=$(cat  "$HOME"/.config/GPT/GPT_key)
 
 set -o vi
 # For a better man page experience
 #export MANPAGER='nvim +Man!'
 #export MANWIDTH=999
-
-
 # Source all files in bin folder when starting up
 
-files=$( find ~/bin/* -type f -executable )
+files=$( find "$HOME"/bin/* -type f -executable )
 for f in $files 
 do 
-  source $f ;
+  source "$f" ;
 done
 
 eval "$(lua ~/z.lua-master/z.lua --init bash enhanced once echo)"
-
 
 #Simple alias for opening programs
 alias open=xdg-open
@@ -43,17 +47,6 @@ case $- in
     *i*) ;;
       *) return;;
 esac
-
-# fzf keybindings
-bind '"\C-f":"fzword\n"'
-bind '"\C-o":"fzopen\n"'
-bind '"\C-n":"nvim\n"'
-bind '"\C-wi":"cd ~/vimwiki && nvim index.md\n"' #C-i appears mapped to tab, not sure why.
-bind '"\C-b":"fzbin\n"'
-bind '"\C-w":"fzwiki\n"'
-
-
-
 
 # Configure for autocompletion
 source /etc/profile.d/bash_completion.sh
@@ -129,6 +122,7 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
+    
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 
@@ -154,8 +148,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f "$HOME/.bash_aliases" ]; then
+    . "$HOME/.bash_aliases"
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -168,7 +162,7 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-export PATH=/home/adrian/.local/bin:/home/adrian/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/adrian/.cargo/bin
-alias config='/usr/bin/git --git-dir=/home/adrian/.cfg/ --work-tree=/home/adrian'
+export PATH=$HOME/.local/bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:$HOME/.cargo/bin
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
