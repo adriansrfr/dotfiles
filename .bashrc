@@ -2,21 +2,46 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 # ~/bin
+
+# tmux # new-session # -s tmux_session
+
 alias vim=nvim
 export VISUAL=nvim
 export EDITOR="$VISUAL"
+alias ls="exa --icons"
+alias cat=bat
+alias tree="exa -T"
 #export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
+
+alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
+alias nvim-kick="NVIM_APPNAME=kickstart nvim"
+alias nvim-chad="NVIM_APPNAME=NvChad nvim"
+alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+
+function nvims() {
+  items=("default" "Kickstart" "LazyVim" "NvChad" "AstroNvim")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt="Neovim Config >> " --height=50% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+      echo "Nothing selected"
+      return 0
+  elif [[ $config == "default" ]]; then
+     nvim; 
+  elif [[ $config == "AstroNvim" ]]; then
+    nvim-astro;
+  elif [[ $config == "Kickstart" ]]; then
+    nvim-kick;
+  elif [[ $config == "LazyVim" ]]; then
+    nvim-lazy;
+  elif [[ $config == "NvChad" ]]; then
+    nvim-chad;
+  fi
+#  NVIM_APPNAME=$config 
+
+}
+
+
 HISTTIMEFORMAT="%F %T "
 export FZF_DEFAULT_COMMAND='ag -f -g ""'
-
-# fzf keybindings
-bind '"\C-f":"fzword\n"'
-bind '"\C-e":"fzfolder\n"'
-bind '"\C-n":"nvim\n"'
-# bind '"\C-i":"index\n"' # Something else is bound to C-i
-#https://unix.stackexchange.com/questions/203418/bind-c-i-and-tab-keys-to-different-commands-in-terminal-applications-via-inputr
-bind '"\C-b":"fzbin\n"'
-bind '"\C-w":"fzwikiword\n"'
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -51,6 +76,9 @@ esac
 # Configure for autocompletion
 source /etc/profile.d/bash_completion.sh
 #let $FZF_DEFAULT_OPTS="--bind \"ctrl-n:preview-down,ctrl-p:preview-up\""
+#
+# $FZF_COMPLETION_TRIGGER (default: '**')
+#
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -121,7 +149,7 @@ esac
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
+#    alias ls='ls --color=auto'
     
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
@@ -166,3 +194,7 @@ export PATH=$HOME/.local/bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+
+
+
+eval "$(starship init bash)"
